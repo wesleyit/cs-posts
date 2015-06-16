@@ -64,12 +64,13 @@ Então faremos assim:
 Execute este comando:
 
 ```
-[wesley@localhost ~]$ docker run -ti debian:jessie /bin/bash
+[wesley@localhost ~]$ docker run --rm -ti debian:jessie /bin/bash
 root@6b6fe08fa678:/# 
 ```
 
 Este comando executa um novo contêiner utilizando como base a imagem do Debian na versão Jessie. 
-Note que este é um conteiner que tem uma sessão terminal interativa (-ti, que significa *tty* e *interactive*).
+Note que este é um conteiner que tem uma sessão terminal interativa (`-ti`, que significa *tty* e *interactive*).
+Também passamos o parâmetro `--rm`, que serve para excluir este contêiner quando a execução do processo terminar. Graças ao `--rm` nosso contêiner é descartável e as alterações não serão persistidas em nenhuma imagem.
 
 Você será transportado imediatamente para o contêiner. 
 A primeira coisa que fazemos quando queremos instalar algo em um Debian é atualizar a base de pacotes do repositório APT.
