@@ -7,37 +7,37 @@ Historinha
 Eles chegaram para valer. Se você não se mover, pode ser atropelado por um contêiner.
 Isso pode parecer exagerado, mas quando paramos para analisar o cenário das empresas líderes do mercado de TI, fica óbvio que não tem volta: a conteinerização é um paradigma que está se consolidando cada vez mais, passando por empresas como Google, Facebook, Amazon, DigitalOcean... até mesmo a Microsoft está criando mecanismos para dar suporte aos famigerados contêineres - uma tecnologia que nasceu no Unix.
 
-Mas como isso ganhou tanta proporção? Historicamente muitos sistemas da família Unix já suportavam recursos parecidos com contêineres, cada um à sua maneira. Solaris e FreeBSD já usam contêineres há quase 15 anos, através do Solaris Zones e do FreeBSD Jails. O ponto-chave dessa história é que uma coisa fácil de usar tem muito mais chance de "pegar" que uma coisa complicada. E como eram complicados esses contêineres! Você precisava entender sobre processos, sobre isolamento, compartilhamento de recursos e sistemas de arquivos.
+Mas como isso ganhou tanta proporção? Historicamente muitos sistemas da família Unix já suportavam recursos parecidos com contêineres, cada um à sua maneira. Solaris e FreeBSD já usam contêineres há quase 15 anos, com o [Solaris Zones](http://www.oracle.com/technetwork/server-storage/solaris11/technologies/virtualization-306056.html) e o [FreeBSD Jails](https://www.freebsd.org/doc/handbook/jails.html). O ponto-chave dessa história é que uma coisa fácil de usar tem muito mais chance de "pegar" do que uma coisa complicada. E como eram complicados esses contêineres! Você precisava entender sobre processos, isolamento, compartilhamento de recursos e sistemas de arquivos.
 
 Os anos foram passando, muitos desenvolvedores foram descobrindo o Linux e várias comunidades surgiram com os mais variados focos. A virtualização ganhou força e virou febre. Depois foi a vez da computação em nuvem e o boom da Amazon, até que alguém percebeu um brilho oculto no LXC e decidiu lapidá-lo. O LXC (LinuXContainers) é um conjunto de aplicações, templates, bibliotecas e SDKs para utilização de contêineres Linux bastante completo, mas não tão amigável. Aí entra o Docker. 
 
 
 Docker.io 
 ---------
-O papel do docker foi fundamental para a disseminação dos contêineres: eles deixaram de ser tratados como distribuição de máquinas virtualizadas e passaram a distribuir **aplicações completas**. A ideia é a seguinte: você distribui um pacote com a sua aplicação, todas as dependências que seu app precisa, ganha uma plataforma web e um conjunto de ferramentas de automatização de build e publicação e ainda leva de brinde uma camada de isolamento e controle de recursos do sistema operacional (nas VMs isso era diferencial, nos contêineres é normalmente esquecida). Se quiser, ainda pode utilizar uma imagem imutável, tornando as coisas ainda mais garantidas.
+O papel do Docker foi fundamental para a disseminação dos contêineres: eles deixaram de ser tratados como distribuição de máquinas virtualizadas e passaram a distribuir **aplicações completas**. A ideia é a seguinte: você distribui um pacote com a sua aplicação e todas as dependências que seu app precisa, ganha uma plataforma web e um conjunto de ferramentas de automatização de build e publicação e ainda leva de brinde uma camada de isolamento e controle de recursos do sistema operacional (nas VMs isso era diferencial, nos contêineres é normalmente esquecida). Se quiser, ainda pode utilizar uma imagem imutável, tornando as coisas ainda mais garantidas.
 
 ![Docker Logo](docker_logo.png)
 
-No começo o Docker tinha sérios problemas: falhas de segurança, incompatibilidade com algumas versões do kernel e distribuições, falta de recursos, mas a maioria dos problemas foi resolvida e muitas novas funcionalidades foram adicionadas. Hoje a plataforma está madura e começa a ter os primeiros concorrentes - RKT, LXD e Drawbridge, entre outros.
+No começo o Docker tinha sérios problemas: falhas de segurança, incompatibilidade com algumas versões do kernel e distribuições, falta de recursos, etc., mas a maioria dos problemas foi resolvida e muitas novas funcionalidades foram adicionadas. Hoje a plataforma está madura e começa a ter os primeiros concorrentes - RKT, LXD e Drawbridge, entre outros.
 
 
 Tá, já sei tudo isso. Mas como eu dockerizo minha aplicação?
 ------------------------------------------------------------
 Essa palavra feia, "dockerizar" - que só existe no dicionário tecniquês do DevOps - significa colocar sua aplicação para rodar dentro de um contêiner, de forma que ela possa ser distribuída e executada por outras pessoas.
 
-Vamos precisar de uma máquina com Docker, Internet e um bom editor de texto (recomendo o Vim, não porque precisa mas porque eu gosto mesmo). Utilizaremos neste exemplo a aplicação Inkscape, velho conhecido editor de imagens vetoriais. Mãos à obra?
+Vamos precisar de uma máquina com Docker, Internet e um bom editor de texto (recomendo [o Vim](http://www.vim.org/), não porque precisa mas porque eu gosto mesmo). Utilizaremos neste exemplo a aplicação Inkscape, velho conhecido editor de imagens vetoriais. Mãos à obra?
 
 
 Passo a Passo
 -------------
-Acho que a coisa mais importante na hora de distribuir sua aplicação em um contêiner é **conhecê-la, saber como ela funciona e de quais recursos ela depende**. Contêineres são leves. Se você usa 6GB para instalar um app simples, tem algo errado. Vamos partir de um sistema base pequeno e passo a passo instalar os pacotes e liberar o hardware. Mas ainda tem um outro conceito que precisamos ver...
+Acho que a coisa mais importante na hora de distribuir sua aplicação em um contêiner é **conhecê-la: saber como ela funciona e de quais recursos ela depende**. Contêineres são leves. Se você usa 6GB para instalar um app simples, tem algo errado. Vamos partir de um sistema base pequeno e passo a passo instalar os pacotes e liberar o hardware. Mas ainda tem um outro conceito que precisamos ver...
 
 
 Definitivo versus Descartável 
 -----------------------------
-Há duas maneiras básicas de trabalhar com os contêineres. Uma forma seria criar um contêiner, configurá-lo como precisar e utilizá-lo. Quando não estiver mais utilizando, pode simplesmente colocá-lo no estado "STOPPED" e na próxima vez que for necessário utilizá-lo bastaria dar um "START" para continuar de onde parou. É assim que trabalhamos na maioria dos casos com máquinas virtuais, e somos condicionados a trabalhar assim porque é deste modo que trabalhamos com nossos desktops e notebooks.
+Há duas maneiras básicas de trabalhar com os contêineres. Uma forma seria criar um contêiner, configurá-lo como precisar e utilizá-lo. Quando não estiver mais utilizando, pode simplesmente colocá-lo no estado "STOPPED" e na próxima vez que for necessário bastaria dar um "START" para continuar de onde parou. É assim que trabalhamos na maioria dos casos com máquinas virtuais, e somos condicionados a isso porque é deste modo que trabalhamos com nossos desktops e notebooks.
 
-A segunda maneira é mais "DevOpsiana" (preciso parar de inventar palavras). Você inicializa um contêiner, usa para o que for necessário e joga fora. Isso mesmo. Deleta. Alguns poderão achar trabalhoso utilizar esta abordagem, mas na realidade ela é a maneira mais segura de se trabalhar: você garante que o contêiner sempre está como você precisa, ninguém alterou a imagem. Outros dirão que esta abordagem gera mais trabalho. Sim, realmente ela gera mais trabalho, mas isso só se você não automatizar o build da imagem. Finalmente, alguns argumentarão que tem dados que precisam ser salvos. Sem problemas: é possível fazer um contêiner imutável e descartável, porém configurar os logs deste contêiner para serem redirecionados para um servidor de logs externo via rede. O mesmo vale para arquivos de dados: você pode utilizar um ponto de montagem de rede ou mesmo um volume Docker para salvar seus dados que devem persistir. Não tem mais desculpa. Desapega :)
+A segunda maneira é mais "DevOpsiana" (preciso parar de inventar palavras). Você inicializa um contêiner, usa para o que for necessário e joga fora. Isso mesmo. Deleta. Alguns poderão achar trabalhoso utilizar esta abordagem, mas na realidade ela é a maneira mais segura de se trabalhar: você garante que o contêiner sempre está como você precisa, ninguém alterou a imagem. Outros dirão que esta abordagem gera mais trabalho. Sim, é verdade, mas isso só se você não automatizar o build da imagem. Finalmente, alguns argumentarão que existem dados que precisam ser salvos. Sem problemas: é possível fazer um contêiner imutável e descartável e configurar os logs deste contêiner para serem redirecionados para um servidor de logs externo via rede. O mesmo vale para arquivos de dados: você pode utilizar um ponto de montagem de rede ou mesmo um volume Docker para salvar seus dados que devem persistir. Não tem mais desculpa. Desapega :)
 
 
 Agora sim 
