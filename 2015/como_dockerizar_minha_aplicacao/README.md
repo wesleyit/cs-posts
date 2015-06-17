@@ -42,24 +42,24 @@ A segunda maneira é mais "DevOpsiana" (preciso parar de inventar palavras). Voc
 
 Agora sim 
 ---------
-Sem mais explicações, vamos lá. Vou presumir que você já tem um docker funcionando no seu Linux. Caso queira, deixe uma mensagem nos comentários que eu mostro como fazer um setup bacana de Docker em um próximo post.
+Sem mais explicações, vamos lá. Vou presumir que você já tem um Docker funcionando no seu Linux. Caso queira, deixe uma mensagem nos comentários que eu mostro como fazer um setup bacana de Docker em um próximo post.
 
-O primeiro passo será fazer o download da imagem que utilizaremos como base. Que tal um Debian Jessie? Ok.
+O primeiro passo é fazer o download da imagem que utilizaremos como base. Que tal um Debian Jessie? Ok.
 
 `[wesley@localhost ~]$ docker pull debian:jessie`
 
 Aguarde o progresso do download e você terá um Debian "fresquinho".
 
-Existem várias abordagens na hora de criar uma nova imagem. 
-Quando vou dockerizar uma nova aplicação, eu costumo antes fazer passo a passo "na mão" e depois gerar a imagem. 
+Existem várias abordagens para criar uma nova imagem. 
+Quando vou dockerizar uma nova aplicação, eu costumo fazer o passo a passo "na mão" antes e depois gerar a imagem. 
 Então faremos assim: 
 
-1. Criaremos um contêiner (interativo) do Debian.
-2. Instalaremos o Inkscape manualmente neste contêiner. 
-3. Garantiremos que o programa e suas dependências foram instaladas.
-4. Depois de conhecer todos os passos, colocaremos tudo em um Dockerfile para gerar nossa imagem.
-5. Testaremos uma nova instância a partir da nossa imagem com os ajustes *default*. 
-6. Ajustaremos o Dockerfile para conter mais parâmetros que façam a aplicação funcionar.
+1. Criamos um contêiner (interativo) do Debian.
+2. Instalamos o Inkscape manualmente neste contêiner. 
+3. Garantimos que o programa e suas dependências foram instaladas.
+4. Depois de conhecer todos os passos, colocamos tudo em um Dockerfile para gerar nossa imagem.
+5. Testamos uma nova instância a partir da nossa imagem com os ajustes *default*. 
+6. Ajustamos o Dockerfile para conter mais parâmetros que façam a aplicação funcionar.
 
 Execute este comando:
 
@@ -69,13 +69,13 @@ root@6b6fe08fa678:/#
 ```
 
 Este comando executa um novo contêiner utilizando como base a imagem do Debian na versão Jessie. 
-Note que este é um conteiner que tem uma sessão terminal interativa (`-ti`, que significa *tty* e *interactive*).
+Note que este é um contêiner que tem uma sessão terminal interativa (`-ti`, que significa *tty* e *interactive*).
 Também passamos o parâmetro `--rm`, que serve para excluir este contêiner quando a execução do processo terminar. Graças ao `--rm` nosso contêiner é descartável e as alterações não serão persistidas em nenhuma imagem.
 
 Você será transportado imediatamente para o contêiner. 
 A primeira coisa que fazemos quando queremos instalar algo em um Debian é atualizar a base de pacotes do repositório APT.
 Como estamos usando o APT, as dependências de software serão instaladas automagicamente. 
-Iremos automatizar nosso contêiner, lembre-se de não utilizar comandos que precisem de interação humana. 
+Vamos automatizar nosso contêiner, lembre-se de não utilizar comandos que precisem de interação humana. 
 Veja:
 
 ```
@@ -85,8 +85,7 @@ root@6b6fe08fa678:/# apt-get install -y inkscape
 ...
 ```
 
-Após o download dos pacotes e dependências e da instalação dos pacotes, 
-você terá um belo Inkscape instalado.
+Após o download dos pacotes e dependências e da instalação dos pacotes, você terá um belo Inkscape instalado.
 Mas será que ele funciona? Vamos ver?
 
 ``` 
@@ -94,7 +93,7 @@ root@8f0100a1c69c:/# inkscape
 Nothing to do!
 ```
 
-Que malcriado! Sabemos que o Inkscape pode rodar em modo texto e em GUI.
+Que mal criado! Sabemos que o Inkscape pode rodar em modo texto e em GUI.
 Vamos tentar forçar o uso da GUI:
 
 ```
@@ -104,7 +103,7 @@ root@8f0100a1c69c:/# inkscape --with-gui
 
 Ahá! Lendo a mensagen fica claro que o Inkscape está instalado e executando corretamente.
 O software só não abriu porque não achou o X11.
-É hora de criar a nossa imagem. Vamos cuidar deste detalhe do X11 na inicialização do contêiner.
+Agora é hora de criar a nossa imagem. Vamos cuidar deste detalhe do X11 na inicialização do contêiner.
 
 Para começar a imagem, vou executar `vim Dockerfile` para criar um novo arquivo.
 Vou explicar cada parte do arquivo nos comentários:
@@ -140,11 +139,11 @@ USER player
 ENTRYPOINT ["/usr/bin/inkscape"]
 ```
 
-Agora que temos o nosso Dockerfile já podemos executar o comando de build para gerar a imagem.
+Agora que temos o nosso Dockerfile, já podemos executar o comando de build para gerar a imagem:
 
 `[wesley@maclinux: ~]$ docker build -t meu-inkscape .` 
 
-A opção -t define uma *tag* que serve para dar o nome a nossa imagem.
+A opção -t define uma *tag* que serve para dar o nome à nossa imagem.
 O ponto serve para dizer que o Dockerfile está no diretório atual.
 
 ```
@@ -165,9 +164,8 @@ Step 3 : RUN apt-get install -y inkscape
 
 Cada comando que colocamos no Dockerfile gera um "Step".
 Cada step é na verdade um contêiner - observe os IDs no log de build.
-A vantagem de fazer múltiplos contêineres utilizando um comando por linha é que 
-se um passo dá errado, você continua de onde parou. O Docker mantém um cache de contêineres.
-Ele utiliza este cache para os passos idênticos que são solicitados novamente, poupando tempo e banda. 
+A vantagem de fazer múltiplos contêineres utilizando um comando por linha é que  
+se um passo dá errado, você continua de onde parou. O Docker mantém um cache de contêineres e utiliza este cache para os passos idênticos que são solicitados novamente, poupando tempo e banda. 
 
 Nosso processo deve estar acabando, vejamos:
 
@@ -181,7 +179,7 @@ Successfully built e85b654d5c73
 
 Nosso comando disse que deu tudo certo.
 Vamos agora tentar subir um contêiner com essa imagem.
-Devemos ver uma tela de erro igual aquela que vimos quando rodamos na mão:
+Devemos ver uma tela de erro igual àquela que vimos quando rodamos na mão:
 
 ```
 [wesley@maclinux: ~]$ docker run -ti --rm meu-inkscape
@@ -203,7 +201,7 @@ Para dar acesso ao X11:
 access control disabled, clients can connect from any host
 ```
 
-Agora vamos iniciar o contêiner novamente. Desta vez passaremos como argumento o caminho do socket do X11, e também informaremos via variável de ambiente qual DISPLAY deve ser utilizado. No meu caso o display é o 0, mas no seu caso pode ser diferente. 
+Agora vamos iniciar o contêiner novamente. Desta vez, passaremos como argumento o caminho do socket do X11, e também informaremos via variável de ambiente qual DISPLAY deve ser utilizado. No meu caso o display é o 0, mas no seu caso pode ser diferente. 
 Execute um `echo $DISPLAY` na sua máquina para saber o seu. Depois, inicialize o contêiner da seguinte forma:
 
 ```
@@ -218,7 +216,7 @@ meu-inkscape
 
 Sucesso! Note que passamos um parâmetro de mapeamento de pasta para nosso Inkscape. 
 Ele mapeia a pasta Pictures do seu usuário para a pasta Pictures do contêiner.
-Com isso você será capaz de trocar arquivos com seu novo Inkscape, mesmo tratando-se de um contêiner totalmente descartável.
+Com isso, você será capaz de trocar arquivos com seu novo Inkscape, mesmo tratando de um contêiner totalmente descartável.
 
 Faça um desenho bem bonito e salve na pasta `~/Pictures` do contêiner.
 
@@ -226,7 +224,7 @@ Faça um desenho bem bonito e salve na pasta `~/Pictures` do contêiner.
 
 ![Inkscape](inkscape3.png)
 
-Depois acesse a mesma pasta no seu usuário e deve ser capaz de visualizar o arquivo.
+Depois, acesse a mesma pasta no seu usuário e aí você deve ser capaz de visualizar o arquivo.
 
 ![Inkscape](inkscape4.png)
 
