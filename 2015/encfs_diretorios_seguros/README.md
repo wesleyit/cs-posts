@@ -15,7 +15,7 @@ O Linux utiliza o LUKS como padrão para criptografia de disco. Através do mód
 
 Vamos mostrar hoje uma solução alternativa usando o [eCryptFS](http://ecryptfs.org/about.html) e o [EncFS](https://github.com/vgough/encfs). O eCryptFS é uma solução opensource e é utilizado como base para o sistema de criptografia de pasta de usuário no Ubuntu Linux e também no Google Chrome OS. O EncFS utiliza as capacidades de criptografia do eCryptFS para criar um filesystem criptografado acessível via FUSE.
 
-Como queremos facilidade, incluiremos uma ferramenta gráfica para gerenciar nossa pasta segura - mas vou mostrar como montar uma pasta via linha de comando também.
+Como queremos facilidade, incluiremos uma ferramenta gráfica para gerenciar nossa pasta segura.
 
 Vamos começar? Estou utilizando um Debian Jessie, mas os processos mostrados aqui são parecidos no Ubuntu e outras distros baseadas em Debian. Para outras distros, procure no seu gerenciador de pacotes.
 
@@ -26,7 +26,6 @@ $ sudo apt-get install -y encfs ecryptfs-utils
 Reading package lists... Done
 Building dependency tree       
 ...
-$ 
 ```
 
 Já instalamos os aplicativos que fazem a parte pesada, vamos agora instalar a interface gráfica de gerenciamento.
@@ -38,8 +37,12 @@ $ sudo apt-get -y install gnome-encfs-manager
 ```
 
 Pacotes para outras distros podem ser encontrados 
-[aqui](http://software.opensuse.org/download.html?project=home:moritzmolch:gencfsm&package=gnome-encfs-manager)
+[aqui.](http://software.opensuse.org/download.html?project=home:moritzmolch:gencfsm&package=gnome-encfs-manager)
 
+Isso é tudo que precisamos para criar a pasta segura.
+Procure na sua lista de aplicativos pelo Gnome EncFS Manager
+
+![Gnome EncFS Manager](./snapshot1.png)
 
 
 
