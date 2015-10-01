@@ -60,8 +60,9 @@ Ao abrir o programa, sua senha será solicitada e todos os arquivos aparecerão 
 Por isso, criar a pasta criptografada com um ponto no início do nome é uma boa ideia, assim ela fica oculta e evitamos acessá-la.
 
 Clique no **+**. Na janela seguinte, o programa oferece algumas opções que podem ser utilizadas sem medo: 
-um diretório `$HOME/Encfs/` será criado com duas subpastas, uma visível, onde você colocará seus projetos, e outra invisível, utilizada pelos arquivos criptografados.
-Escolha uma senha forte - lembre-se de não anotá-la em um post-it colado na sua tela - e clique em create:
+um diretório `$HOME/Encfs/` será criado com duas subpastas, uma visível (`Private/`), onde você colocará seus projetos e que chamaremos de pasta protegida, e outra invisível (`.Private/`), usada internamente pelo programa para colocar os arquivos criptografados, que chamaremos de pasta criptografada.
+
+Aceite as opções default do programa, escolha uma senha forte - lembre-se de não anotá-la em um post-it colado na sua tela - e clique em create:
 
 ![Gnome EncFS Manager new folder](./snapshot4.png)
 
@@ -69,8 +70,10 @@ Pronto! Já temos a pasta configurada. Na janela principal ela aparece como "mon
 
 ![Gnome EncFS Manager folder](./snapshot5.png)
 
-Mas somos curiosos, vamos ver no navegador de arquivos. 
-Entrei na pasta protegida e criei um novo arquivo de texto:
+**Nota:** Se você já tem uma pasta de projetos, não selecione-a como ponto de montagem para a pasta protegida. Você deve criar a pasta protegida em um novo local e mover seus arquivos para dentro dela após criada e montada.
+
+Com isso encerramos a configuração da nossa pasta protegida. Porém, se você (assim como eu) é curioso, vai querer saber como as coisas funcionam por baixo do capô.
+Para ver como o EncFS trata os arquivos, vou entrar na pasta protegida e crier um novo arquivo de texto:
 
 ![folder](./snapshot6.png)
 
@@ -83,8 +86,13 @@ E tentar acessar a pasta `.Private/` ao invés da `Private/`:
 
 ![.Private](./snapshot8.png)
 
-É isso. Tanto o nome do arquivo quanto seu conteúdo estão criptografados e protegidos dos terríveis hackers ladrões de HDs.
+Maravilha! Tanto o nome do arquivo quanto seu conteúdo estão criptografados e protegidos dos terríveis hackers ladrões de HDs.
 
+É isso, pessoal. 
 Agora é só lembrar de montar a sua pasta na inicialização do PC (isso não pode ser automatizado porque requer a sua senha) e colocar seus arquivos importantes lá dentro.
+Tire um tempo para ler a página de FAQ do [Gnome EncFS Manager](https://answers.launchpad.net/gencfsm).
+Aproveite nosso blog para postar suas dúvidas.
+Até a próxima!
+
 
 
