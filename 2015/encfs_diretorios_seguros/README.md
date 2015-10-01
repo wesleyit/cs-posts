@@ -40,9 +40,51 @@ Pacotes para outras distros podem ser encontrados
 [aqui.](http://software.opensuse.org/download.html?project=home:moritzmolch:gencfsm&package=gnome-encfs-manager)
 
 Isso é tudo que precisamos para criar a pasta segura.
-Procure na sua lista de aplicativos pelo Gnome EncFS Manager
+Procure na sua lista de aplicativos pelo Gnome EncFS Manager:
 
 ![Gnome EncFS Manager](./snapshot1.png)
 
+Ao executar o programa, um ícone (um desenho de uma pasta com uma chave dentro) aparece na área de notificação:
+
+![Gnome EncFS Manager Icon](./snapshot2.png)
+
+Se a janela principal do aplicativo não for exibida, clique no ícone e selecione a opção **Show Manager**.
+Esta é a aparência do programa:
+
+![Gnome EncFS Manager Window](./snapshot3.png)
+
+Antes de criar a pasta segura, vamos entender como o app funciona.
+O EncFS cria uma pasta onde os arquivos criptografados são armazenados. 
+Esta pasta está sempre disponível, mas nunca iremos acessá-la diretamente.
+Ao abrir o programa, sua senha será solicitada e todos os arquivos aparecerão descriptografados na sua pasta de projeto.
+Por isso, criar a pasta criptografada com um ponto no início do nome é uma boa ideia, assim ela fica oculta e evitamos acessá-la.
+
+Clique no **+**. Na janela seguinte, o programa oferece algumas opções que podem ser utilizadas sem medo: 
+um diretório `$HOME/Encfs/` será criado com duas subpastas, uma visível, onde você colocará seus projetos, e outra invisível, utilizada pelos arquivos criptografados.
+Escolha uma senha forte - lembre-se de não anotá-la em um post-it colado na sua tela - e clique em create:
+
+![Gnome EncFS Manager new folder](./snapshot4.png)
+
+Pronto! Já temos a pasta configurada. Na janela principal ela aparece como "montada":
+
+![Gnome EncFS Manager folder](./snapshot5.png)
+
+Mas somos curiosos, vamos ver no navegador de arquivos. 
+Entrei na pasta protegida e criei um novo arquivo de texto:
+
+![folder](./snapshot6.png)
+
+Agora, através do gerenciador, vou desmontar a pasta protegida e tentar acessar os arquivos na pasta criptografada.
+Basta desmarcar a opção "mounted":
+
+![unmount](./snapshot7.png)
+
+E tentar acessar a pasta `.Private/` ao invés da `Private/`:
+
+![.Private](./snapshot8.png)
+
+É isso. Tanto o nome do arquivo quanto seu conteúdo estão criptografados e protegidos dos terríveis hackers ladrões de HDs.
+
+Agora é só lembrar de montar a sua pasta na inicialização do PC (isso não pode ser automatizado porque requer a sua senha) e colocar seus arquivos importantes lá dentro.
 
 
