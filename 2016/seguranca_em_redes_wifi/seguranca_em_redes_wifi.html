@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>seguranca_em_redes_wifi.html</title>
+
+</head>
+
+<body>
+
+<!---
+Local Variables:
+ispell-local-dictionary: "brasileiro"
+End:
+-->
+
+
+<h1>Segurança em redes sem fio</h1>
+
+<p>Nos últimos 15 anos passamos a utilizar com mais frequência a
+Internet como ferramenta para atividades cotidianas, como pagar contas,
+nos comunicar ou comprar produtos.
+Sempre nos disseram que era uma boa prática ter o &ldquo;cadeado&rdquo;
+na janela do navegador, indicando uma conexão HTTPS.</p>
+
+<p><img src="./cadeado.png" alt="Cadeado HTTPS" /></p>
+
+<p>Só que a evolução não parou aí: os desktops foram quase que totalmente
+substituídos pelos smartphones e tablets em tarefas de comunicação.
+Um problema existente nessa nova abordagem é que fica mais difícil
+saber como o aplicativo foi implementado, se ele utiliza realmente
+algum tipo de criptografia e boas práticas de segurança.</p>
+
+<p>Quando o app não usa HTTPS (ou alguma outra forma de comunicação segura)
+é relativamente fácil para outras pessoas com acesso à rede onde seu
+telefone está conectado interceptarem o tráfego.</p>
+
+<p>Vejamos como.</p>
+
+<h2>Cenário Fictício</h2>
+
+<p>Vamos imaginar uma empresa fictícia, um escritório de
+contabilidade com cerca de 100 funcionários. Como a maioria
+das empresas deste porte, há uma sala com equipamentos de
+informática e um analista responsável pelo suporte.</p>
+
+<p>O analista mantém um desenho da rede para facilitar a administração:</p>
+
+<p><img src="./mapa-rede.png" alt="Mapa da Rede" /></p>
+
+<p>Como muitas empresas deste porte, nossa empresa de exemplo
+mantém um firewall caseiro muito rudimentar,
+composto por uma boa máquina com várias placas de rede e
+executando uma distro GNU/Linux com IPTables e Squid.
+Como o Linux é o Gateway padrão da rede, todo o tráfego que vai para
+a Internet acaba passando por ele.</p>
+
+<p>É cada vez mais comum encontrarmos empresas que
+fornecem uma conexão wireless, já que os planos de dados
+do Brasil não são nenhuma maravilha. Neste caso não
+é diferente.</p>
+
+<p>Todos os dispositivos que se conectam em uma rede doméstica recebem
+um número IP para identificação e diferenciação dos outros.</p>
+
+<p>Certo. Munidos de todas estas informações, o que será que
+um analista de TI com acesso ao firewall da rede consegue fazer?</p>
+
+<h2>Sniffing com TCP Dump</h2>
+
+<p>Com um celular conectado à rede wireless, o primeiro passo é descobrir seu
+IP. Quando temos um servidor Linux rodando DHCP, essa é uma tarefa simples.
+Basta olhar o arquivo de <strong>leases</strong>:
+[ imagem dos leases ]</p>
+
+<p>Agora que já sabemos, utilizaremos o comando <code>tcpdump</code>, que captura
+todo o tráfego que passa pelo servidor. Para não gerar muito
+tráfego, utilizaremos o IP do celular como filtro:</p>
+
+<p><code>[root@TheServer ~]# tcpdump -i any -s 65535 -w espiadinha.pcap</code></p>
+
+<p>Enquanto a sequência <code>CTRL+C</code> não for pressionada, todo o tráfico
+com origem ou destino a este telefone será copiado também para
+o arquivo <code>espiadinha.pcap</code>.</p>
+
+<p>Sabe o que é mais assustador? O usuário não percebe nada!</p>
+
+<p>OK, mas qual o conteúdo deste arquivo? A resposta é DEPENDE.
+Se o aplicativo executado durante a captura utilizou criptografia,
+então o conteúdo será ilegível (ao menos para pobres mortais sem
+os conhecimentos dos hackers). Vejamos como fica o arquivo quando
+utilizamos o Facebook:
+[ imagem do tcpdump do facebook ]</p>
+
+<p>Entretanto, se o aplicativo foi feito sem as melhores práticas de
+segurança, olha o resultado:
+[ imagem de algum app sem criptografia ]</p>
+
+<p>:O</p>
+
+<h2>Análise com Wireshark</h2>
+
+<p>Olhar os dumps no modo texto pode ser um pouco chato.
+Existe uma ferramenta chamada Wireshark que pode tornar
+esta tarefa mais simples.</p>
+
+<p>É muito simples: o John Armless acessa o servidor via SSH e dispara um
+comando para capturar uma série de arquivos de vários celulares dos
+funcionários. No final do expediente, ele copia todos os arquivos e
+leva para casa. Em casa ele instala o Wireshark em seu PC e abre os
+arquivos <code>.pcap</code>. Olha que bonito:
+[ imagem de um wireshark com um dump ]</p>
+
+<h2>Como se proteger?</h2>
+
+<p>É bem difícil. Não tem como o usuário saber se o aplicativo utiliza ou não
+HTTPS. Diferentemente dos sites, que exibem o protocolo na barra de
+endereços do navegador, um aplicativo pode ocultar todos os detalhes
+de sua implementação. Por isso é importante utilizar aplicativos
+de fornecedores confiáveis, evitando digitar dados sigilosos em
+apps feitos por empresas desconhecidas ou instalados de fontes
+estranhas. Prefira apps das lojas oficiais, como Google Play e
+Apple Store, e não coloque informações como número de documento ou
+cartão de crédito em aplicativos pouco conhecidos.
+É isso aí. Já foi espiado por algum John Armless? Já desconfiou que
+alguma rede onde estava não era segura? Deixe seu relato nos
+comentários. Abraço e até a próxima!</p>
+
+</body>
+</html>
