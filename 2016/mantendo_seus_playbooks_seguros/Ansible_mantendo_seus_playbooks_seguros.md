@@ -1,5 +1,5 @@
-Ansible - Mantendo seus playbooks seguros
-=========================================
+Ansible - Mantendo seus playbooks em segurança
+==============================================
 
 O Ansible chegou chutando a porta e mostrando que não veio de brincadeira.
 Em pouco tempo já é uma das ferramentas mais utilizadas por DevOps do mundo todo quando chega a hora de provisionar a infra como código.
@@ -102,7 +102,6 @@ deve ser versionado e armazenado em um repositório remoto que garanta sua dispo
 Várias pessoas poderão ter acesso a este código.
 **Parece uma boa ideia salvar o usuário e a senha do banco de dados no arquivo de playbook?**
 
-
 Vamos refazer nosso playbook de uma forma mais bacana.
 Para não perder nosso primeiro playbook - que apesar de inseguro, funciona bem - vamos salvá-lo
 com outro nome. Vamos também criar um arquivo onde colocaremos nossas variáveis secretas:
@@ -114,8 +113,8 @@ playbook.yml
 [wesley@maclinux-01: ~/Ansible]$ touch my_secrets.yml
 ```
 
-Agora precisamos extrair do playbook.yml a seção de variáveis e colocá-la no arquivo my_secrets.yml, sem o `vars:`.
-No arquivo playbook.yml vamos colocar o `vars_files:` com o my_secrets exatamente onde ficava o bloco de variáveis.
+Agora precisamos extrair do `playbook.yml` a seção de variáveis e colocá-la no arquivo `my_secrets.yml`, sem o `vars:`.
+No arquivo `playbook.yml` vamos colocar o `vars_files:` com o `my_secrets` exatamente onde ficava o bloco de variáveis.
 
 Olha como fica:
 
@@ -185,9 +184,9 @@ PLAY RECAP *********************************************************************
 ```
 
 Funciona! Mas espera aí... não adiantou nada! Ainda conseguimos ver as senhas no
-arquivo my_secrets. É neste momento que o **Ansible Vault** entra em cena.
+arquivo `my_secrets.yml`. É neste momento que o **Ansible Vault** entra em cena.
 
-Vamos criptografar o arquivo my_secrets:
+Vamos criptografar o arquivo `my_secrets.yml`:
 
 ```
 [wesley@maclinux-01: ~/Ansible]$ ansible-vault encrypt my_secrets.yml
@@ -237,7 +236,7 @@ Isso não faz sentido. Vamos olhar o help do Ansible:
 ```
 
 Mexilhões! Agora tudo faz sentido! Como o Ansible poderia abrir o arquivo se só nós sabemos a senha?
-Vamos passar para o Ansible na hora da execução:
+Vamos passar a senha para o Ansible na hora da execução:
 
 ```
 [wesley@maclinux-01: ~/Ansible]$ ansible-playbook playbook.yml --ask-vault-pass
@@ -267,13 +266,21 @@ PLAY RECAP *********************************************************************
 
 ```
 
-Sucesso! Traz lá uma cerveja gelada porque nossos playbooks estão seguros \o/
+Para editar o arquivo depois de criado também é muito fácil.
+Basta exportar a variável `EDITOR` com o seu editor de texto favorito.
+Depois disso é só executar o `ansible-vault` com o parâmetro `edit` e o nome do arquivo,
+colocar a senha e fazer as alterações necessárias. Veja:
 
-Mas lembre-se: utilize uma senha segura e avalie se há realmente a necessidade de
+```
+[wesley@maclinux-01: ~/Ansible]$ ansible-vault edit my_secrets.yml
+Vault password:
+
+```
+
+!(./kate.png)
+
+Sucesso! Traz lá uma cerveja gelada porque agora nossos playbooks estão em segurança \o/\o/\o/
+Mas lembre-se: utilize sempre uma senha segura e avalie se há realmente a necessidade de
 colocar algo muito secreto em um arquivo público.
 
-
-
-
-
-
+Dúvidas? Sugestões? Deixe seu comentário ;)
