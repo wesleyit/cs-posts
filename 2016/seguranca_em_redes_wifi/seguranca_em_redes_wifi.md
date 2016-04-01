@@ -9,14 +9,14 @@ Segurança em redes sem fio
 Quando os primeiros sites com transações eletrônicas surgiram na Internet,
 houve uma certa resistência até que as pessoas dessem seu voto de 
 confiança. Bem nesta época surgiram vários relatos de ataques de 
-hackers, levando prejuízos enormes à pessoas e empresas.
+hackers, levando prejuízos enormes a pessoas e empresas.
 
 Para combater os problemas de segurança, vários mecanismos foram
-criados, como o HTTPS. Através de um conjunto de relações de confiança
+criados, como o HTTPS. Por meio de de um conjunto de relações de confiança
 e de criptografia na transmissão dos dados, o HTTPS trouxe mais
 credibilidade às comunicações web.
 
-Sempre nos disseram que era uma boa prática ter o "cadeado"
+Sempre nos disseram, por exemplo, que era uma boa prática ter o "cadeado"
 na janela do navegador, indicando uma conexão HTTPS.
 
 ![Cadeado HTTPS](./cadeado.png ) 
@@ -24,11 +24,11 @@ na janela do navegador, indicando uma conexão HTTPS.
 Só que a evolução não parou aí: os desktops foram quase que totalmente
 substituídos pelos smartphones e tablets em tarefas de comunicação.
 Um problema existente nessa nova abordagem é que fica mais difícil 
-saber como o aplicativo foi implementado, se ele utiliza realmente
+saber como o aplicativo foi implementado e se ele utiliza realmente
 algum tipo de criptografia e boas práticas de segurança.
 
 Quando o app não usa HTTPS (ou alguma outra forma de comunicação segura)
-é relativamente fácil para outras pessoas com acesso à rede onde seu
+é relativamente fácil para outras pessoas com acesso à rede na qual seu
 telefone está conectado interceptarem o tráfego. Vejamos como.
 
 Cenário Fictício
@@ -49,7 +49,7 @@ O servidor Linux é o Gateway padrão da rede, logo todo o tráfego que
 vai para a Internet acaba passando por ele. 
 
 É cada vez mais comum encontrarmos empresas que 
-fornecem uma conexão wireless para os funcionários acessarem
+oferecem conexão wireless para os funcionários acessarem
 redes sociais, banking, etc., já que os planos de dados 
 do Brasil não são nenhuma maravilha. Neste caso não
 é diferente.
@@ -87,9 +87,9 @@ Resultado:
 
 Lembrando que 10.200.1.14 é o IP do telefone alvo.
 A opção `-i` especifica a placa de rede utilizada e a opção `-A` decodifica
-os pacoted de uma forma humanamente legível.
+os pacotes de uma forma humanamente legível.
 
-Enquanto a sequência `CTRL+C` não for pressionada, todo o tráfico
+Enquanto a sequência `CTRL+C` não for pressionada, todo o tráfego
 com origem ou destinado a este telefone será exibido na tela.
 
 OK, mas qual o conteúdo deste dump? A resposta é **DEPENDE**.
@@ -101,10 +101,10 @@ Vejamos como fica o arquivo capturado quando utilizamos o Facebook:
 
 ![Facebook](./facebook.png) 
 
-Fica claro que o Facebook utiliza criptografia na comunicação através
+Fica claro que o Facebook utiliza criptografia na comunicação por meio
 do seu aplicativo. Temos duas evidências disso:
- - A porta HTTPS (443/TCP) está sendo utilizada
- - O payload (conteúdo dos pacotes) é ilegível
+ - A porta HTTPS (443/TCP) está sendo utilizada;
+ - O payload (conteúdo dos pacotes) é ilegível.
 
 Para demonstrar um exemplo de aplicativo que não utiliza estes recursos,
 vamos utilizar o app de uma empresa de planos de saúde, 
@@ -160,12 +160,12 @@ estranhas.
 
 Prefira apps das lojas oficiais, como Google Play e 
 Apple Store, e não coloque informações como número de documento ou
-cartão de crédito em aplicativos que não confia.
+cartão de crédito em aplicativos nos quais não confia.
 
 Leia os comentários sobre o aplicativo. Muitos apps problemáticos
 foram votados negativamente em suas respectivas lojas, é bem
 comum encontrar os relatos dos usuários que foram vítimas.
 
 É isso aí. Já foi espiado por algum bisbilhoteiro? Já desconfiou que
-alguma rede onde estava não era segura? Deixe seu relato nos
+alguma rede na qual estava não era segura? Deixe seu relato nos
 comentários. Abraço e até a próxima!
