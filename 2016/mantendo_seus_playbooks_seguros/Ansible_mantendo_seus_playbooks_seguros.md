@@ -277,7 +277,7 @@ Vault password:
 
 ```
 
-!(./kate.png)
+![Kate editando o arquivo criptografado](./kate.png)
 
 Sucesso! Traz lá uma cerveja gelada porque agora nossos playbooks estão em segurança \o/\o/\o/
 Mas lembre-se: utilize sempre uma senha segura e avalie se há realmente a necessidade de
