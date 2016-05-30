@@ -98,13 +98,13 @@ mysql>
 
 Ótimo, realmente funcionou. Só tem um problema:
 Este playbook gerencia a nossa infra como código, e como sabemos, código deve ser testado, avaliado,
-deve ser versionado e armazenado em um repositório remoto que garanta sua disponibilidade.
+versionado e armazenado em um repositório remoto que garanta sua disponibilidade.
 Várias pessoas poderão ter acesso a este código.
 **Parece uma boa ideia salvar o usuário e a senha do banco de dados no arquivo de playbook?**
 
 Vamos refazer nosso playbook de uma forma mais bacana.
 Para não perder nosso primeiro playbook - que apesar de inseguro, funciona bem - vamos salvá-lo
-com outro nome. Vamos também criar um arquivo onde colocaremos nossas variáveis secretas:
+com outro nome. Vamos também criar um arquivo no qual colocaremos nossas variáveis secretas:
 
 ```
 [wesley@maclinux-01: ~/Ansible]$ ls
