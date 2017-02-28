@@ -27,7 +27,7 @@ Vamos lá?
 
 Acessando o nosso Jenkins, damos de cara com a tela pedindo login e senha:
 
-!["Screenshot_20170228_110752.png"](Home Jenkins)
+![Home Jenkins]("Screenshot_20170228_110752.png")
 
 Sem chance. Poderíamos fazer aqui algum tipo de ataque de força bruta baseado
 em uma lista de usuários e senhas comuns, mas não vamos por este caminho.
@@ -39,7 +39,7 @@ no contêiner como `/var/jenkins_home`.
 Para saber a localização deste diretótio, temos que descobrir o nome do
 contêiner do Jenkins e depois inspecioná-lo, buscando seus pontos de montagem:
 
-!["Screenshot_20170228_112218.png"](Jenkins Home)
+![Jenkins Home]("Screenshot_20170228_112218.png")
 
 Uau! O Jenkins cria vários arquivos e diretórios. Tem coisas muito importantes
 nesta pasta. Vamos iniciar pelo login do próprio Jenkins, depois entrar na
@@ -49,7 +49,7 @@ Enumerar os usuários é o primeiro passo. Basta dar um `ls` na pasta `users` e
 pronto, já sabemos os logins que vamos atacar. Inclusive, temos acesso
 ao hash da senha acessando seu arquivo `config.xml`:
 
-!["Screenshot_20170228_113411.png"](Config.xml)
+![Password]("Screenshot_20170228_113411.png")
 
 Ahhh, que pena! A senha é armazenada em hash BCrypt. Isso quer dizer que não é
 reversível, mas não vamos desistir. Temos que entrar na interface web.
@@ -64,7 +64,7 @@ Troque o hash da linha copiada para:
 
 Fica assim:
 
-!["Screenshot_20170228_165308.png"](Alterações)
+![Alteracoes]("Screenshot_20170228_165308.png")
 
 Este hash corresponde à senha **test**.
 
@@ -72,9 +72,9 @@ Depois de trocar o hash é só reiniciar o contêiner para que a correção seja
 aplicada. Podemos usar um simples `docker restart <nomedocontêiner>` e
 logar com as credenciais `admin` e senha `test`.
 
-!["Screenshot_20170228_165528.png"](Logando)
+![Logando]("Screenshot_20170228_165528.png")
 
-!["Screenshot_20170228_165608.png"](Logado)
+![Logado]("Screenshot_20170228_165608.png")
 
 Sucesso! Imaginando que somos crackers, para não levantar suspeitas, agora
 criaríamos uma conta com privilégios de administrador e voltaríamos a senha
@@ -86,12 +86,12 @@ Passeando pelas configurações em [Jenkins/Manage Jenkins/Configure System],
 vamos que este servidor utiliza o plugin SSH. Podemos ver o usuário e a
 senha salvos para o servidor `SRV-PRODUCAO.acme.br`:
 
-!["Screenshot_20170228_191311.png"](SSH)
+![SSH]("Screenshot_20170228_191311.png")
 
 Podemos selecionar o campo da senha e clicar em **inspecionar elemento**, para
 ver no código fonte as propriedades desse campo.
 
-!["Screenshot_20170228_191503.png"](SSH Senha)
+![SSH Senha]("Screenshot_20170228_191503.png")
 
 Que beleza! Acabamos de descobrir que a senha de root do servidor é
 **Acapulco1983** através do texto em **value**, no código fonte.
@@ -99,7 +99,7 @@ Que beleza! Acabamos de descobrir que a senha de root do servidor é
 Este Jenkins também possui configurado o plugin **E-mail Notification**.
 Será que conseguimos pegar algo aqui também?
 
-!["Screenshot_20170228_191935.png"](SMTP Senha)
+![SMTP Senha]("Screenshot_20170228_191935.png")
 
 Pegamos, mas parece que tem algo errado:
 
@@ -123,7 +123,7 @@ criptografia para você:
 
 O resultado aparece no campo Result:
 
-!["Screenshot_20170228_192629.png"](Resultado Decrypt)
+![Resultado Decrypt]("Screenshot_20170228_192629.png")
 
 Agora sabemos que a senha do SMTP é `AguaDeJamaica`.
 
@@ -143,12 +143,12 @@ como `root` no Jenkins. Vou criar um shell usando o bash como base e
 dar `SUID` para ele, lembrando de deixá-lo na pasta acessível no
 Docker host.
 
-!["Screenshot_20170228_195003.png"](Shell Capiroto)
+![Shell Capiroto]("Screenshot_20170228_195003.png")
 
 O que acontece quando executamos este shell com a opção `-p` no Docker
 host, logado com uma conta limitada?
 
-!["Screenshot_20170228_195257.png"](Root)
+![Dominado]("Screenshot_20170228_195257.png")
 
 Uaaaaaahahahahahahahahahahahahahahaha!!! Essa máquina foi conquistada!
 
