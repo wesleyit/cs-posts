@@ -175,8 +175,17 @@ indefesos, podemos nos precaver de ataques mais básicos. Algumas dicas:
  sistema de arquivos e exibir o conteúdo dos arquivos secretos.
  - Cuidado com os acessos armazenados em plugins. Se precisar salvar login e
  senha, melhor reconsiderar.
+ - Mantenha seu stack atualizado. Se fosse uma versão mais antiga do Jenkins,
+ daquelas que tem todas as senhas no arquivo `credentials.xml`, seria possível
+ descriptografar e obter todas elas!
 
 E lembre-se: seu ambiente é tão seguro quanto seu elo mais frágil. Quanto mais
 ferramentas e passos de complexidade forem adicionados ao CI, mais ampla será
 a cobertura que você precisará analisar em busca de falhas de segurança.
-Em outras palavras, keep it simple!
+Neste caso, falhas no SonarQube, Nexus e outros contêineres podem dar acesso
+aos servidores de produção. Em outras palavras, mantenha as coisas simples.
+
+PS: A senha do admin Jenkins era a palavra cabalística
+**Parangaricutirimirruaro**.
+
+Até o próximo post =)
