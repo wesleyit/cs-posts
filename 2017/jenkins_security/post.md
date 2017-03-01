@@ -7,7 +7,7 @@ para ficar, e já não dá mais para viver sem ele <3
 
 E como este ambiente costuma ser? Normalmente vemos uma máquina média ou grande
 com Docker instalado, onde são executados ao mesmo tempo vários contêineres
-de serviços, como Jenkins, Nexus, Gitlab, Apiary, Swagger, SonarQube, etc.
+de serviços como Jenkins, Nexus, Gitlab, Apiary, Swagger, SonarQube, etc.
 
 O Jenkins disponibiliza uma matriz de usuários com permissões bem fáceis de
 configurar e restringir. Mas você já parou para analisar a segurança da
@@ -16,11 +16,11 @@ sua instalação de Jenkins como um todo, desde a máquina onde ele está instal
 
 ## Penetrando no Jenkins
 
-Para nosso cenário fictício, vamos simular uma máquina na AWS com Docker,
+Para nosso cenário fictício, vamos simular uma máquina Linux com Docker,
 onde há vários contêineres (entre eles o Jenkins) executando.
 
 Nosso Jenkins está protegido com uma senha bastante segura, que não possuímos.
-A única coisa que temos, no momento, é acesso SSH à máquina Docker onde
+A única coisa que temos no momento é acesso SSH à máquina Docker onde
 o contêiner Jenkins foi iniciado.
 
 Vamos lá?
@@ -42,8 +42,8 @@ contêiner do Jenkins e depois inspecioná-lo, buscando seus pontos de montagem:
 ![Jenkins Home](./Screenshot_20170228_112218.png)
 
 Uau! O Jenkins cria vários arquivos e diretórios. Tem coisas muito importantes
-nesta pasta. Vamos iniciar pelo login do próprio Jenkins, depois entrar na
-interface e obter outros logins e senhas.
+nesta pasta. Vamos iniciar conseguindo o login do próprio Jenkins,
+depois poderemos entrar na interface e obter outros logins e senhas.
 
 Enumerar os usuários é o primeiro passo. Basta dar um `ls` na pasta `users` e
 pronto, já sabemos os logins que vamos atacar. Inclusive, temos acesso
@@ -51,7 +51,7 @@ ao hash da senha acessando seu arquivo `config.xml`:
 
 ![Password](./Screenshot_20170228_113411.png)
 
-Ahhh, que pena! A senha é armazenada em hash BCrypt. Isso quer dizer que não é
+Ahhh, que pena! A senha é armazenada em hash JBCrypt. Isso quer dizer que não é
 reversível, mas não vamos desistir. Temos que entrar na interface web.
 Já que não sabemos qual senha gerou este hash, podemos colocar no lugar
 um hash conhecido, gerado por uma senha bem fácil.
@@ -83,7 +83,7 @@ de admin para o hash antigo, que salvamos no comentário do `config.xml`.
 Pronto, já temos acesso ao Jenkins. O que mais podemos descobrir?
 
 Passeando pelas configurações em [Jenkins/Manage Jenkins/Configure System],
-vamos que este servidor utiliza o plugin SSH. Podemos ver o usuário e a
+vemos que este servidor utiliza o plugin SSH. Podemos ver o usuário e a
 senha salvos para o servidor `SRV-PRODUCAO.acme.br`:
 
 ![SSH](./Screenshot_20170228_191311.png)
@@ -109,7 +109,7 @@ Essa é a senha do usuário SMTP, mas está criptografada. Não vai ser tão
 simples quanto a senha do SSH.
 
 Sabemos que o Jenkins usa uma chave master para criptografar uma chave local,
-e que usa essa chave para criptografar todos os seus recursos.
+e que usa essa chave local para criptografar todos os seus recursos.
 O que vamos fazer é algo bem simples: dentro do console do próprio Jenkins,
 vamos escrever um script groovy que vai usar as chaves para decodificar
 a senha.
@@ -146,7 +146,7 @@ Docker host.
 ![Shell Capiroto](./Screenshot_20170228_195003.png)
 
 O que acontece quando executamos este shell com a opção `-p` no Docker
-host, logado com uma conta limitada?
+host, logados com uma conta limitada?
 
 ![Dominado](./Screenshot_20170228_195257.png)
 
