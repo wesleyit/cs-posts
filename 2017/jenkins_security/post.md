@@ -6,21 +6,20 @@ de tarefas agendadas. Usar Docker também não é nenhuma novidade. Ele chegou
 para ficar, e já não dá mais para viver sem ele <3
 
 E como este ambiente costuma ser? Normalmente vemos uma máquina média ou grande
-com Docker instalado, onde são executados ao mesmo tempo vários contêineres
+com Docker instalado, na qual são executados ao mesmo tempo vários contêineres
 de serviços como Jenkins, Nexus, Gitlab, Apiary, Swagger, SonarQube, etc.
 
 O Jenkins disponibiliza uma matriz de usuários com permissões bem fáceis de
 configurar e restringir. Mas você já parou para analisar a segurança da
-sua instalação de Jenkins como um todo, desde a máquina onde ele está instalado?
+sua instalação de Jenkins como um todo, desde a máquina na qual ele está instalado?
 
 
 ## Penetrando no Jenkins
 
-Para nosso cenário fictício, vamos simular uma máquina Linux com Docker,
-onde há vários contêineres (entre eles o Jenkins) executando.
+Para nosso cenário fictício, vamos simular uma máquina Linux com Docker, na qual há vários contêineres (entre eles o Jenkins) executando.
 
 Nosso Jenkins está protegido com uma senha bastante segura, que não possuímos.
-A única coisa que temos no momento é acesso SSH à máquina Docker onde
+A única coisa que temos no momento é acesso SSH à máquina Docker na qual
 o contêiner Jenkins foi iniciado.
 
 Vamos lá?
@@ -36,7 +35,7 @@ Que tal acessar o servidor? Após fazer o login, vamos acessar a pasta que foi
 configurada como persistência local do Jenkins, que geralmente é montada
 no contêiner como `/var/jenkins_home`.
 
-Para saber a localização deste diretótio, temos que descobrir o nome do
+Para saber a localização desse diretório, temos que descobrir o nome do
 contêiner do Jenkins e depois inspecioná-lo, buscando seus pontos de montagem:
 
 ![Jenkins Home](./Screenshot_20170228_112218.png)
@@ -76,7 +75,7 @@ logar com as credenciais `admin` e senha `test`.
 
 ![Logado](./Screenshot_20170228_165608.png)
 
-Sucesso! Imaginando que somos crackers, para não levantar suspeitas, agora
+Sucesso! Imaginando que somos crackers, para não levantar suspeitas agora
 criaríamos uma conta com privilégios de administrador e voltaríamos a senha
 de admin para o hash antigo, que salvamos no comentário do `config.xml`.
 
@@ -94,7 +93,7 @@ ver no código fonte as propriedades desse campo.
 ![SSH Senha](./Screenshot_20170228_191503.png)
 
 Que beleza! Acabamos de descobrir que a senha de root do servidor é
-**Acapulco1983** através do texto em **value**, no código fonte.
+**Acapulco1983** por meio do texto em **value** no código fonte.
 
 Este Jenkins também possui configurado o plugin **E-mail Notification**.
 Será que conseguimos pegar algo aqui também?
@@ -133,7 +132,7 @@ Jenkins. Imagina só um cenário corporativo com acesso a ambientes de produçã
 também um vetor de vários tipos de problemas de segurança.
 
 Vamos imaginar um cenário com um servidor Docker com vários contêineres em
-execução, onde os usuários acessam com contas limitadas, mas **sem acesso
+execução, nos quais os usuários acessam com contas limitadas, mas **sem acesso
 como root**. O simples fato de permitir acesso ao Jenkins via Docker com
 um ponto de montagem habilitado pode ser criativamente explorado.
 
@@ -166,15 +165,15 @@ tiver tempo, dinheiro e vontade, vai conseguir. Mas não estamos totalmente
 indefesos, podemos nos precaver de ataques mais básicos. Algumas dicas:
 
  - Controle quem tem acesso via SSH ao Docker. Como vimos, com um console na
- máquina do Docker é possível fazer muita bagunça.
+ máquina do Docker é possível fazer muita bagunça;
  - Fique de olho em arquivos com SUID. Com eles é possível elevar os privilégios
- sem ter o trabalho de achar as senhas de root.
+ sem ter o trabalho de achar as senhas de root;
  - Não permita que o Jenkins Master tenha executores em ambientes de produção.
  A melhor estratégia é manter o Jenkins Master com permissões limitadas e deixar
  os executores nos Slaves. Com Executores no Master, um job poderia acessar o
- sistema de arquivos e exibir o conteúdo dos arquivos secretos.
+ sistema de arquivos e exibir o conteúdo dos arquivos secretos;
  - Cuidado com os acessos armazenados em plugins. Se precisar salvar login e
- senha, melhor reconsiderar.
+ senha, melhor reconsiderar;
  - Mantenha seu stack atualizado. Se fosse uma versão mais antiga do Jenkins,
  daquelas que tem todas as senhas no arquivo `credentials.xml`, seria possível
  descriptografar e obter todas elas!
