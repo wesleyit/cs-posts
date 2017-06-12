@@ -48,7 +48,7 @@ de estilo da linguagem). Seguiremos o seguinte roteiro:
 
 1.  Criar uma pasta para o nosso projeto.
 2.  Criar um ambiente virtual.
-3.  Ativa o ambiente virtual.
+3.  Ativar o ambiente virtual.
 4.  Criar o `hello_world`.
 5.  Executar o `hello_world`.
 
@@ -67,7 +67,8 @@ O conteúdo do arquivo deve ser algo como:
 print("Hello, World!!!")
 ```
 
-Para executar, podemos fazer de duas formas:
+Podemos executar de duas formas:
+
 a. Chamando o Python passando o arquivo como argumento:
 
 ```shell
@@ -75,7 +76,7 @@ $ python hello_world.py
 Hello, World!!!
 ```
 
-b. Ou dando permissão de execução e chamando o script diretamente:
+b. ...Ou dando permissão de execução e chamando o script diretamente:
 
 ```shell
 $ chmod a+x hello_world.py
@@ -124,10 +125,10 @@ Executamos todas as célulás:
 
 ![Cells2](./Screenshot_20170612_130236.png)
 
-Que demais! É tipo um texto, mas com partes executáveis. Para fazer documentação é mesmo
-muito legal.
+Que demais! É tipo um texto, mas com partes executáveis. Imagina como deve ser bacana fazer
+documentação técnica usando isso :D
 
-Outra coisa bem bacana do Jupyter é a possibilidade de adicionar gráficos bem legais aos nossos documentos. Vamos brincar com números e aprender a fazer um **import**, ou seja, incluir código de uma
+Outra coisa bem interessante do Jupyter é a possibilidade de adicionar gráficos bonitos aos nossos documentos. Vamos brincar com números e aprender a fazer um **import**, ou seja, incluir código de uma
 biblioteca externa. Adicione o código abaixo em 3 células de um novo notebook:
 
 ```python
