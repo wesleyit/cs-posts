@@ -14,7 +14,7 @@ começar pela instalação do ambiente.
 Instalação
 ----------
 
-Temos que insyalar os pacotes do Python. Se você usa Linux, provavelmente já
+Temos que instalar os pacotes do Python. Se você usa Linux, provavelmente já
 tem o Python de fábrica. Como sempre acaba faltando alguma coisa, vamos
 dar a receitinha de bolo. Além do Python, queremos o `pip` e o `virtualenv`,
 que como veremos adiante, facilitam demais a vida.
